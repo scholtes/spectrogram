@@ -18,5 +18,5 @@ Fs = 44100;
 
 daniel = imread('inputs/daniel.png');
 % imshow(daniel);
-audio = img2spect(daniel,1,4000,5,Fs,0);
+audio = img2spect(daniel,500,4000,5,Fs,1);
 audiowrite('outputs/daniel.wav', audio, Fs);
