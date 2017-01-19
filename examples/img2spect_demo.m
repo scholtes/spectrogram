@@ -16,7 +16,18 @@ addpath('../src');
 % Audio sample rate 
 Fs = 44100;
 
-daniel = imread('inputs/daniel.png');
-% imshow(daniel);
-audio = img2spect(daniel,500,4000,5,Fs,1);
+% Example #1
+img = imread('inputs/daniel.png');
+% Create an audio stream encoding the image in a spectrogram with:
+%     a min frequency of 500 Hz,
+%     a max frequency of 4000 Hz,
+%     5 seconds in length  ,
+%     a sample rate of 44100 Hz (a typical value),
+%     and with the image colors inverted  
+audio = img2spect(img,500,4000,5,Fs,1);
 audiowrite('outputs/daniel.wav', audio, Fs);
+
+% Example #2
+img = imread('inputs/tetons.jpg');
+audio = img2spect(img,500,4000,25,Fs,1);
+audiowrite('outputs/tetons.wav', audio, Fs);
