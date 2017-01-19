@@ -17,6 +17,9 @@ if invert
 end
 [height, width] = size(img);
 
+% We will need this for phase offset 
+s = RandStream('mt19937ar','Seed',1);
+
 % interpolation helpers
 oldlin = linspace(0,dur,width);
 newlin = linspace(0,dur,dur*Fs);
@@ -24,7 +27,11 @@ newlin = linspace(0,dur,dur*Fs);
 for row = 1:height
     amplitudes = interp1(oldlin, imd(row,:), newlin, 'pchip');
     freq = minfreq*(maxfreq/minfreq)^(row/height);
-    audio = audio + amplitudes.*sin(2*pi*freq*newlin);
+    % Generate frequency for this row, with random phase offset.
+    % The phase offset is necessary to avoid unpleasant moiré
+    % fringes in the final signal 
+    signal = sin(2*pi*freq*(newlin+rand(s)));
+    audio = audio + amplitudes.*signal;
 end
 audio = audio / max(max(audio),abs(min(audio)));
 
